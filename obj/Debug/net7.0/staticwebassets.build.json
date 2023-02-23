@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "e8y3onDjmFi+8COeJ8F52KAxTxlwqcSPTjRtDwtm5rQ=",
+  "Source": "backend-keystore",
+  "BasePath": "_content/backend-keystore",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,40 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  keystoreapp:
+    image: docker.io/library/keystoreapp
+    depends_on:
+      - "keystore_db"
+    container_name: keystore_services
+    ports:
+      - "8080:80"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionString__DefaultConnection=User ID=dd;Password=dd;Server=keystore_db;Port=5432;Database=KeystoreDbDriver; IntegratedSecurity=true;Pooling=true;
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+  
+  keystore_db:
+    image: postgres:latest
+    container_name: keystore_db
+    environment:
+      - POSTGRES_USER=dd
+      - POSTGRES_PASSWORD=dd
+      - POSTGRES_DB=KeystoreDbDriver
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - keystore_data:/var/lib/postgres/data
+    networks:
+      - dev
+volumes:
+  keystore_data:
+      
