@@ -1,4 +1,5 @@
 using backend_keystore.Data;
+using backend_keystore.Dto;
 using backend_keystore.Models;
 using backend_keystore.Models.Products;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +17,16 @@ public class ProductService:IProductService
         _context = context;
     }
 
-    public async Task<ServiceResponse<List<Product>>> GetAllProducts()
+    public async Task<ServiceResponse<List<ProductDto>>> GetAllProducts()
     {
-        var serviceResponse = new ServiceResponse<List<Product>>();
-        serviceResponse.Data =  _context.Product.ToList();
+        var serviceResponse = new ServiceResponse<List<ProductDto>>();
+        serviceResponse.Data =  _context.Product.Select(p=>new ProductDto(p.Id,p.Name,p.Ean,p.Price)).ToList();
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<Product>> AddProduct(Product newProduct)
+    public async Task<ServiceResponse<ProductDto>> AddProduct(ProductDto newProduct)
     {
-        var serviceResponse = new ServiceResponse<Product>();
+        var serviceResponse = new ServiceResponse<ProductDto>();
 
         if ( _context.Product.
             Any(c => c.Id == newProduct.Id))
@@ -35,12 +36,32 @@ public class ProductService:IProductService
         }
         else
         {
-            _context.Product.Add(newProduct);
+            Product prod = new Product
+            {
+                Id = newProduct.Id,
+                Name = newProduct.Name,
+                Ean = newProduct.Ean,
+                Price = newProduct.Price,
+                CampaignReceipt = null,
+                CampaignReceiptId = null,
+                NormalPriceReceipt = null,
+                NormalPriceReceiptId = null,
+
+            };
+            _context.Product.Add(prod);
             await _context.SaveChangesAsync();
 
-            var product = await _context.Product.FirstOrDefaultAsync(c => c.Id == newProduct.Id);
-            serviceResponse.Data = product;      
-            serviceResponse.Message = "Product has been added";      
+           bool product = await _context.Product.AnyAsync(c => c.Id == newProduct.Id);
+           if (!product)
+           {
+               serviceResponse.Message = $"Product with id {newProduct.Id} did not save  ";
+               serviceResponse.Success = false;
+           }
+           else
+           {
+               serviceResponse.Data = newProduct;      
+               serviceResponse.Message = "Product has been added";         
+           }
         }
         
        return serviceResponse;

@@ -1,7 +1,7 @@
 namespace backend_keystore.Models.EAN;
 
-public class EANCampaign
+public class EanCampaign
 {
-    public string Id { get; set; } = string.Empty;
-    public long CampaignEAN { get; set; } = 0;
+    public string Id { get; set; } = null!;
+    public long CampaignEan { get; set; } 
 }

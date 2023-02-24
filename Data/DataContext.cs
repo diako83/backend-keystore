@@ -1,7 +1,7 @@
 using backend_keystore.Models.EAN;
 using backend_keystore.Models.Products;
 using backend_keystore.Models.Receipts;
-using backendkeystore.Migrations;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_keystore.Data;
@@ -18,29 +18,45 @@ public class DataContext:DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        modelBuilder.Entity<CampaignReceipt>()
+            .HasMany(p => p.Products)
+            .WithOne(c => c.CampaignReceipt)
+            .HasForeignKey(k => k.CampaignReceiptId)
+            .IsRequired(false);
+
+        modelBuilder.Entity<NormalPriceReceipt>()
+            .HasMany(p => p.Products)
+            .WithOne(n => n.NormalPriceReceipt)
+            .HasForeignKey(k => k.NormalPriceReceiptId)
+            .IsRequired(false);;
+
         modelBuilder.Entity<Product>().HasData(
-            new Product { Id = "1", Name = "Coca-cola", EAN = 5000112637922, Price = 19.95 },
-            new Product { Id = "2", Name = "Sprite", EAN = 5000112637939, Price = 19.95  },
-            new Product { Id = "3", Name = "Pepsi", EAN = 7310865004703, Price = 19.95 },
-            new Product { Id = "4", Name = "Seven-upp", EAN = 7340005404261, Price = 19.95  },
-            new Product { Id = "5", Name = "Fanta", EAN = 7310532109090, Price = 19.95  },
-            new Product { Id = "6", Name = "Glass", EAN = 5000112555922, Price = 19.75 },
-            new Product { Id = "7", Name = "Mjöl", EAN = 5000112666622, Price = 25.50 },
-            new Product { Id = "8", Name = "Champo", EAN = 5000112337922, Price = 18.59 }
+            new Product { Id = "1", Name = "Coca-cola", Ean = 5000112637922, Price = 19.95 },
+            new Product { Id = "2", Name = "Sprite", Ean = 5000112637939, Price = 19.95  },
+            new Product { Id = "3", Name = "Pepsi", Ean = 7310865004703, Price = 19.95 },
+            new Product { Id = "4", Name = "Seven-upp", Ean = 7340005404261, Price = 19.95  },
+            new Product { Id = "5", Name = "Fanta", Ean = 7310532109090, Price = 19.95  },
+            new Product { Id = "6", Name = "Glass", Ean = 5000112555922, Price = 19.75 },
+            new Product { Id = "7", Name = "Mjöl", Ean = 5000112666622, Price = 25.50 },
+            new Product { Id = "8", Name = "Champo", Ean = 5000112337922, Price = 18.59 }
          
         );
         
-        modelBuilder.Entity<EANCampaign>().HasData(
-            new EANCampaign {Id  = "1",CampaignEAN = 5000112637922 },
-            new EANCampaign {Id  = "2",CampaignEAN = 5000112637939 },
-            new EANCampaign {Id  = "3",CampaignEAN = 7310865004703},
-            new EANCampaign {Id  = "4",CampaignEAN = 7340005404261},
-            new EANCampaign {Id  = "5",CampaignEAN = 7310532109090},
-            new EANCampaign {Id  = "6",CampaignEAN = 7611612222105}
+        modelBuilder.Entity<EanCampaign>().HasData(
+            new EanCampaign {Id  = "1",CampaignEan = 5000112637922 },
+            new EanCampaign {Id  = "2",CampaignEan = 5000112637939 },
+            new EanCampaign {Id  = "3",CampaignEan = 7310865004703},
+            new EanCampaign {Id  = "4",CampaignEan = 7340005404261},
+            new EanCampaign {Id  = "5",CampaignEan = 7310532109090},
+            new EanCampaign {Id  = "6",CampaignEan = 7611612222105}
          
         );
     }
-    public DbSet<Product> Product { get; set; }
-    public DbSet<EANCampaign> EANCampaign=> Set<EANCampaign>();
+
+    public DbSet<Product> Product => Set<Product>();
+    public DbSet<EanCampaign> EANCampaign=> Set<EanCampaign>();
     public DbSet<Receipt> Receipt => Set<Receipt>();
+    public DbSet<CampaignReceipt> CampaignReceipts => Set<CampaignReceipt>();
+    public DbSet<NormalPriceReceipt> NormalPriceReceipt => Set<NormalPriceReceipt>();
 }

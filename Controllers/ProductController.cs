@@ -1,3 +1,4 @@
+using backend_keystore.Dto;
 using backend_keystore.Models;
 using backend_keystore.Models.Products;
 using backend_keystore.Services.ProductServices;
@@ -16,16 +17,14 @@ public class ProductController:ControllerBase
     }
 
     [HttpGet("products")]
-    public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAllProducts()
+    public async Task<ActionResult<ServiceResponse<List<ProductDto>>>> GetAllProducts()
     {
-        
         return Ok(await _productService.GetAllProducts());
     }
     
     [HttpPost("products")]
-    public async Task<ActionResult<ServiceResponse<List<Product>>>> NewProduct(Product newProduct)
+    public async Task<ActionResult<ServiceResponse<List<ProductDto>>>> NewProduct(ProductDto newProduct)
     {
-        
         return Ok(await _productService.AddProduct(newProduct));
     }
 }

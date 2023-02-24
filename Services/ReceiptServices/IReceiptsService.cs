@@ -8,7 +8,7 @@ public interface IReceiptsService
 {
 
     Task<ServiceResponse<Receipt>> CreateReceipt(List<Product> getShoppingChart);
-    Task<ServiceResponse<CampaignReceipt>>CreateCampaignReceipt(List<Product> getShoppingChart,int campaignPrice);
-    Task<ServiceResponse<NormalPriceReceipt>> CreateNormalPriceReceipt(List<Product> getShoppingChart);
+    Task<CampaignReceipt>CreateCampaignReceipt(List<Product> shoppingChart,List<long> campaignEANs,int campaignPrice);
+    Task<NormalPriceReceipt> CreateNormalPriceReceipt(List<Product> getShoppingChart,List<long> campaignEANs);
     
 }

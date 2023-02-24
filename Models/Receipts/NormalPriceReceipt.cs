@@ -4,10 +4,8 @@ namespace backend_keystore.Models.Receipts;
 
 public class NormalPriceReceipt
 {
-    public string Id { get; set; } = string.Empty;
-    public List<Product> shoppingCart { get; set; } = new List<Product>();
+    public string Id { get; set; } = null!;
     public double Price { get; set; }
-    public Receipt Receipt { get; set; }
-    public string ReceiptId { get; set; }
-    
+
+    public List<Product> Products { get; set; }
 }
