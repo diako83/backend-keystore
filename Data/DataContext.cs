@@ -19,17 +19,17 @@ public class DataContext:DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<CampaignReceipt>()
-            .HasMany(p => p.Products)
+        /*modelBuilder.Entity<CampaignReceipt>()
+            .HasMany(p => p.ProductIds)
             .WithOne(c => c.CampaignReceipt)
             .HasForeignKey(k => k.CampaignReceiptId)
             .IsRequired(false);
 
         modelBuilder.Entity<NormalPriceReceipt>()
-            .HasMany(p => p.Products)
+            .HasMany(p => p.ProductIds)
             .WithOne(n => n.NormalPriceReceipt)
             .HasForeignKey(k => k.NormalPriceReceiptId)
-            .IsRequired(false);;
+            .IsRequired(false);;*/
 
         modelBuilder.Entity<Product>().HasData(
             new Product { Id = "1", Name = "Coca-cola", Ean = 5000112637922, Price = 19.95 },

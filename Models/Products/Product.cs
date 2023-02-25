@@ -9,9 +9,5 @@ public class Product
     public long Ean { get; set; } 
     public double Price { get; set; } 
     
-    public string? CampaignReceiptId { get; set; }
-    public CampaignReceipt? CampaignReceipt { get; set; }
-    
-    public string? NormalPriceReceiptId { get; set; }
-    public NormalPriceReceipt? NormalPriceReceipt { get; set; }
+   
 }

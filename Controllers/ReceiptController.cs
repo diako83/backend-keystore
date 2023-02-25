@@ -1,3 +1,5 @@
+using backend_keystore.Dto;
+using backend_keystore.Dto.RecieptsDto;
 using backend_keystore.Models;
 using backend_keystore.Models.Products;
 using backend_keystore.Models.Receipts;
@@ -18,7 +20,7 @@ public class ReceiptController:ControllerBase
     
     
     [HttpPost("receipt")]
-    public async Task<ActionResult<ServiceResponse<Receipt>>> CreateReceipt(List<Product> getShoppingChart)
+    public async Task<ActionResult<ServiceResponse<ReceiptDto>>> CreateReceipt(List<ProductDto> getShoppingChart)
     {
         
         return Ok(await _receiptsService.CreateReceipt(getShoppingChart));

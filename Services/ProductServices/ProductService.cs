@@ -42,11 +42,7 @@ public class ProductService:IProductService
                 Name = newProduct.Name,
                 Ean = newProduct.Ean,
                 Price = newProduct.Price,
-                CampaignReceipt = null,
-                CampaignReceiptId = null,
-                NormalPriceReceipt = null,
-                NormalPriceReceiptId = null,
-
+                
             };
             _context.Product.Add(prod);
             await _context.SaveChangesAsync();

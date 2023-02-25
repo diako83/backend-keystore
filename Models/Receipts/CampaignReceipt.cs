@@ -6,8 +6,8 @@ public class CampaignReceipt
 {
     public string Id { get; set; } = null!;
     public double Price { get; set; }
-    
-    public List<Product> Products { get; set; }
-    
+
+    public List<string> ProductIds { get; set; } = null!;
+
 
 }
