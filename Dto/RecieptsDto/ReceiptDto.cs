@@ -1,3 +1,5 @@
+using backend_keystore.Models.Receipts;
+
 namespace backend_keystore.Dto.RecieptsDto;
 
 public class ReceiptDto
@@ -7,4 +9,6 @@ public class ReceiptDto
     public CampaignReceiptDto? CampaignReceipt { get; set; }
     public NormalPriceReceiptDto? NormalPriceReceipt { get; set; }
     public double TotalPrice { get; set; }
+
+  
 }

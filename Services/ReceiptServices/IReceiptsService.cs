@@ -10,6 +10,7 @@ public interface IReceiptsService
 {
 
     Task<ServiceResponse<ReceiptDto>> CreateReceipt(List<ProductDto> getShoppingChart);
+    Task<ServiceResponse<List<ReceiptDto>>> GetAllReceipts();
     Task<CampaignReceipt>CreateCampaignReceipt(List<ProductDto> shoppingChart,List<long> campaignEANs,int campaignPrice);
     Task<NormalPriceReceipt> CreateNormalPriceReceipt(List<ProductDto> getShoppingChart,List<long> campaignEANs);
     

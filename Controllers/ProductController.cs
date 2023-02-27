@@ -2,9 +2,11 @@ using backend_keystore.Dto;
 using backend_keystore.Models;
 using backend_keystore.Models.Products;
 using backend_keystore.Services.ProductServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend_keystore.Controllers;
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController:ControllerBase

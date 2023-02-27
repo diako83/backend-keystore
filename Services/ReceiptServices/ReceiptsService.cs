@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using backend_keystore.Data;
 using backend_keystore.Dto;
 using backend_keystore.Dto.RecieptsDto;
@@ -5,6 +6,7 @@ using backend_keystore.Models;
 using backend_keystore.Models.EAN;
 using backend_keystore.Models.Products;
 using backend_keystore.Models.Receipts;
+using backend_keystore.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_keystore.Services.ReceiptServices;
@@ -12,12 +14,31 @@ namespace backend_keystore.Services.ReceiptServices;
 public class ReceiptsService: IReceiptsService
 {
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ReceiptsService(DataContext context)
+    public ReceiptsService(DataContext context,IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
+    private string GetUserId() => _httpContextAccessor.HttpContext!.User
+        .FindFirstValue(ClaimTypes.NameIdentifier)!;
+    private User GetUser()
+    {
+        var userIdClaim = _httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null)
+        {
+            throw new Exception("User not authenticated or NameIdentifier claim is missing.");
+        }
+        
+        var userId = userIdClaim.Value;
+
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+        return user;
+    }
+    
     public async Task<ServiceResponse<ReceiptDto>> CreateReceipt(List<ProductDto> getShoppingChart)
     {
         List<EanCampaign> campaignEaNs = await _context.EANCampaigns.ToListAsync();
@@ -35,7 +56,8 @@ public class ReceiptsService: IReceiptsService
             Date = DateTime.UtcNow,
             CampaignReceipt = campaignReceipt,
             NormalPriceReceipt = normalPriceReceipt,
-            TotalPrice =  Math.Round(price, 2)
+            TotalPrice =  Math.Round(price, 2),
+            User = GetUser()
         };
         
         _context.Receipts.Add(receipt);
@@ -47,6 +69,26 @@ public class ReceiptsService: IReceiptsService
         var serviceResponse = new ServiceResponse<ReceiptDto>();
         serviceResponse.Data = receiptDto;
         serviceResponse.Message = "Thank you for shopping att KeyStore";
+        return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<List<ReceiptDto>>> GetAllReceipts()
+    {
+        
+        
+        
+        var serviceResponse = new ServiceResponse<List<ReceiptDto>>();
+        List<Receipt> receipts = await _context.Receipts
+            .Include(c=>c.CampaignReceipt)
+            .Include(c=>c.NormalPriceReceipt)
+            .Where(c => c.User.Id == GetUserId()).ToListAsync();
+
+        List<ReceiptDto> receiptsDtos = 
+          receipts.Select(r =>  CreateReceiptDto(r.CampaignReceipt, r.NormalPriceReceipt, r)).ToList();
+
+        serviceResponse.Data = receiptsDtos;
+        serviceResponse.Message = $"$All receipt connected to id {GetUserId()}";
+
         return serviceResponse;
     }
 

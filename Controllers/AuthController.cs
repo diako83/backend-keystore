@@ -1,4 +1,5 @@
 using backend_keystore.Auth;
+using backend_keystore.Dto;
 using backend_keystore.Dto.UserDto;
 using backend_keystore.Models;
 using backend_keystore.Models.User;
@@ -32,8 +33,8 @@ public class AuthController:ControllerBase
 
         return Ok(response);
     }
-    /*[HttpPost("login")]
-    public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
+    [HttpPost("login")]
+    public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDto request)
     {
         var response = await _authRepo.Login(request.Username, request.Password);
         if(!response.Success)
@@ -41,5 +42,6 @@ public class AuthController:ControllerBase
             return BadRequest(response);
         }
         return Ok(response);
-    }*/
+    }
+    
 }
