@@ -1,7 +1,7 @@
 using backend_keystore.Models.EAN;
 using backend_keystore.Models.Products;
 using backend_keystore.Models.Receipts;
-
+using backend_keystore.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend_keystore.Data;
@@ -54,9 +54,10 @@ public class DataContext:DbContext
         );
     }
 
+    public DbSet<User> Users => Set<User>();
     public DbSet<Product> Product => Set<Product>();
-    public DbSet<EanCampaign> EANCampaign=> Set<EanCampaign>();
-    public DbSet<Receipt> Receipt => Set<Receipt>();
+    public DbSet<EanCampaign> EANCampaigns=> Set<EanCampaign>();
+    public DbSet<Receipt> Receipts => Set<Receipt>();
     public DbSet<CampaignReceipt> CampaignReceipts => Set<CampaignReceipt>();
-    public DbSet<NormalPriceReceipt> NormalPriceReceipt => Set<NormalPriceReceipt>();
+    public DbSet<NormalPriceReceipt> NormalPriceReceipts => Set<NormalPriceReceipt>();
 }

@@ -20,7 +20,7 @@ public class ReceiptsService: IReceiptsService
 
     public async Task<ServiceResponse<ReceiptDto>> CreateReceipt(List<ProductDto> getShoppingChart)
     {
-        List<EanCampaign> campaignEaNs = await _context.EANCampaign.ToListAsync();
+        List<EanCampaign> campaignEaNs = await _context.EANCampaigns.ToListAsync();
         if (campaignEaNs == null) throw new ArgumentNullException(nameof(campaignEaNs));
         List<long> eans = campaignEaNs.Select(c => c.CampaignEan).ToList();
         CampaignReceipt campaignReceipt = await CreateCampaignReceipt( getShoppingChart ,eans,30);
@@ -38,7 +38,7 @@ public class ReceiptsService: IReceiptsService
             TotalPrice =  Math.Round(price, 2)
         };
         
-        _context.Receipt.Add(receipt);
+        _context.Receipts.Add(receipt);
         await _context.SaveChangesAsync();
 
 

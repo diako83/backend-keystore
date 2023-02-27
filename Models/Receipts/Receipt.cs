@@ -1,4 +1,7 @@
+
 namespace backend_keystore.Models.Receipts;
+using backend_keystore.Models.User;
+
 
 public class Receipt
 {
@@ -7,4 +10,6 @@ public class Receipt
     public CampaignReceipt? CampaignReceipt { get; set; }
     public NormalPriceReceipt? NormalPriceReceipt { get; set; }
     public double TotalPrice { get; set; }
+    
+    public  User? User { get; set; }
 }

@@ -1,3 +1,4 @@
+using backend_keystore.Auth;
 using backend_keystore.Data;
 using backend_keystore.Services.ProductServices;
 using backend_keystore.Services.ReceiptServices;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IReceiptsService, ReceiptsService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
